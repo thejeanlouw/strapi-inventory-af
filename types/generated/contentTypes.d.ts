@@ -362,46 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiProductProduct extends Schema.CollectionType {
-  collectionName: 'products';
-  info: {
-    singularName: 'product';
-    pluralName: 'products';
-    displayName: 'Product';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    images: Attribute.Media;
-    splash_image: Attribute.Media;
-    stock: Attribute.Integer & Attribute.Required & Attribute.DefaultTo<0>;
-    title: Attribute.String;
-    description: Attribute.RichText;
-    supplier_info: Attribute.JSON;
-    release_date: Attribute.DateTime;
-    Price: Attribute.Float;
-    Cost: Attribute.Float;
-    slug: Attribute.String;
-    product_id: Attribute.UID<'api::product.product', 'slug'>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::product.product',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::product.product',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -828,6 +788,86 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiKycDocumentKycDocument extends Schema.CollectionType {
+  collectionName: 'kyc_documents';
+  info: {
+    singularName: 'kyc-document';
+    pluralName: 'kyc-documents';
+    displayName: 'KYC Document';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    filename: Attribute.String;
+    content: Attribute.JSON;
+    isValid: Attribute.Boolean;
+    screenshots: Attribute.Media;
+    doc_id: Attribute.UID;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::kyc-document.kyc-document',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::kyc-document.kyc-document',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProductProduct extends Schema.CollectionType {
+  collectionName: 'products';
+  info: {
+    singularName: 'product';
+    pluralName: 'products';
+    displayName: 'Product';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    images: Attribute.Media;
+    splash_image: Attribute.Media;
+    stock: Attribute.Integer & Attribute.Required & Attribute.DefaultTo<0>;
+    title: Attribute.String;
+    description: Attribute.RichText;
+    supplier_info: Attribute.JSON;
+    release_date: Attribute.DateTime;
+    Price: Attribute.Float;
+    Cost: Attribute.Float;
+    slug: Attribute.String;
+    product_id: Attribute.UID<'api::product.product', 'slug'>;
+    creating_user: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -838,7 +878,6 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::product.product': ApiProductProduct;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -847,6 +886,8 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::kyc-document.kyc-document': ApiKycDocumentKycDocument;
+      'api::product.product': ApiProductProduct;
     }
   }
 }

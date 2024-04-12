@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "kyc_documents",
+  "info": {
+    "singularName": "kyc-document",
+    "pluralName": "kyc-documents",
+    "displayName": "KYC Document"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "filename": {
+      "type": "string"
+    },
+    "content": {
+      "type": "json"
+    },
+    "isValid": {
+      "type": "boolean"
+    },
+    "screenshots": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "doc_id": {
+      "type": "uid"
+    }
+  }
+}
