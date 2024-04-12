@@ -1,28 +1,8 @@
 import path from 'path';
-const { createClient } = require('@supabase/supabase-js');
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
-
-module.exports = ({ env }) => {
-  module.exports = ({ env }) => ({
-    connection: {
-      client: 'postgres',
-      connection: {
-        host: env('SUPABASE_URL'),
-        port: env.int('PORT', 5432),
-        database: env('PGDATABASE'),
-        user: env('PGUSER'),
-        password: env('PGPASSWORD'),
-        ssl: env.bool('DATABASE_SSL', false),
-      },
-    },
-  });
 
 // export default ({ env }) => {
-//   const client = env('DATABASE_CLIENT', 'sqlite');
-
+//   const client = env('DATABASE_CLIENT', 'postgres');
+//   console.log('client', client);
 //   const connections = {
 //     mysql: {
 //       connection: {
@@ -72,9 +52,9 @@ module.exports = ({ env }) => {
 //         connectionString: env('DATABASE_URL'),
 //         host: env('DATABASE_HOST', 'localhost'),
 //         port: env.int('DATABASE_PORT', 5432),
-//         database: env('DATABASE_NAME', 'strapi'),
-//         user: env('DATABASE_USERNAME', 'strapi'),
-//         password: env('DATABASE_PASSWORD', 'strapi'),
+//         database: env('DATABASE_NAME', 'postgres'),
+//         user: env('DATABASE_USERNAME', 'anzvzmrmxzkbdvtvroga'),
+//         password: env('DATABASE_PASSWORD', 'ZenPay2024!'),
 //         ssl: env.bool('DATABASE_SSL', false) && {
 //           key: env('DATABASE_SSL_KEY', undefined),
 //           cert: env('DATABASE_SSL_CERT', undefined),
@@ -102,7 +82,7 @@ module.exports = ({ env }) => {
 //       useNullAsDefault: true,
 //     },
 //   };
-
+//   console.log('connections client', connections[client]);
 //   return {
 //     connection: {
 //       client,
@@ -111,3 +91,27 @@ module.exports = ({ env }) => {
 //     },
 //   };
 // };
+
+export default ({ env }) => ({
+  connection: {
+    client: 'postgres',
+    connection: {
+      host: env('DATABASE_HOST', 'aws-0-eu-central-1.pooler.supabase.com'),
+      port: env.int('DATABASE_PORT', 6543),
+      database: env('DATABASE_NAME', 'postgres'),   
+      user: env('DATABASE_USERNAME', 'postgres.anzvzmrmxzkbdvtvroga'),
+      password: env('DATABASE_PASSWORD', 'ZenPay2024!'),
+      ssl: env.bool('DATABASE_SSL', false),
+    },
+    acquireConnectionTimeout: 10000,
+    pool: {
+      min: 0,
+      max: 10,
+      createTimeoutMillis: 8000,
+      acquireTimeoutMillis: 8000,
+      idleTimeoutMillis: 8000,
+      reapIntervalMillis: 1000,
+      createRetryIntervalMillis: 100,
+    },
+  }
+});
